@@ -1,31 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from "react-native";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabOneScreen() {
+export default function TabTwoScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View className="flex-1 items-center justify-center bg-blue-50 dark:bg-gray-900">
+      <Text className="text-lg font-bold text-blue-500 dark:text-white">
+        Testando NativeWind 🚀
+      </Text>
+      <TouchableOpacity className="mt-4 px-4 py-2 bg-blue-500 rounded-lg">
+        <Text className="text-white font-semibold">Pressione</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
