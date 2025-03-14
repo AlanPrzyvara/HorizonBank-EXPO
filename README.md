@@ -14,7 +14,8 @@ Este repositório contém o código-fonte de um aplicativo bancário desenvolvid
 
 * React Native Expo
 * NativeWind (Tailwind CSS)
-* [Outras tecnologias/bibliotecas, ex: Redux, React Navigation]
+* Axios
+* Expo-router
 
 ## Pré-requisitos
 
