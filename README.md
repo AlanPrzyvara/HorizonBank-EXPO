@@ -58,8 +58,8 @@ Este repositório contém o código-fonte de um aplicativo bancário desenvolvid
 
 ## Configuração
 
-* Certifique-se de que a API [Nome da sua API] esteja em execução e acessível.
-* Configure as variáveis de ambiente necessárias no arquivo `.env` (se aplicável).
+* Certifique-se de que a API [HorizonBank] esteja em execução e acessível.
+* Configure as variáveis de ambiente necessárias no arquivo `.env` caso exista.
 
 ## 📂 Estrutura do Projeto:
 ```
