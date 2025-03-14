@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
@@ -9,6 +9,16 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  useEffect(() => {
+    const checkLogin = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        router.replace("/(tabs)/Home");
+      }
+    };
+    checkLogin();
+  }, []);
+
   const handleLogin = async () => {
     try {
       const response = await axios.post("http://localhost:3001/login", { document, password });
@@ -17,7 +27,7 @@ export default function Login() {
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("accountId", account.data.id);
 
-      router.replace("./Home");
+      router.replace("/(tabs)/Home"); // Corrigindo a navegação para a pasta correta
     } catch (error) {
       Alert.alert("Erro", "Login falhou. Verifique suas credenciais.");
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -11,20 +11,37 @@ export default function Home() {
   }
 
   const [account, setAccount] = useState<Account | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchAccount = async () => {
-      const token = await AsyncStorage.getItem("token");
-      const accountId = await AsyncStorage.getItem("accountId");
-
+      setLoading(true);
       try {
+        const token = await AsyncStorage.getItem("token");
+        const accountId = await AsyncStorage.getItem("accountId");
+
+        console.log("Token:", token);
+        console.log("Account ID:", accountId);
+
+        if (!token || !accountId) {
+          Alert.alert("Erro", "Usuário não autenticado!");
+          router.replace("/Login");
+          return;
+        }
+
         const response = await axios.get(`http://localhost:3001/accounts/${accountId}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
+        console.log("Response da API:", response.data);
+
         setAccount(response.data.account.data.attributes);
       } catch (error) {
+        console.error("Erro ao buscar conta:", error);
         Alert.alert("Erro", "Falha ao buscar os dados.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -32,19 +49,28 @@ export default function Home() {
   }, []);
 
   const handleLogout = async () => {
-    const token = await AsyncStorage.getItem("token");
-    await axios.delete("http://localhost:3001/logout", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("accountId");
+    try {
+      const token = await AsyncStorage.getItem("token");
 
-    router.replace("../Login");
+      await axios.delete("http://localhost:3001/logout", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("accountId");
+
+      router.replace("/Login");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      Alert.alert("Erro", "Falha ao sair.");
+    }
   };
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 p-5">
-      {account ? (
+      {loading ? (
+        <Text>Carregando...</Text>
+      ) : account ? (
         <>
           <Text className="text-2xl font-bold">Bem-vindo, {account.name}</Text>
           <Text className="text-lg mt-2">Saldo: R$ {account.balance}</Text>
@@ -54,7 +80,7 @@ export default function Home() {
           </TouchableOpacity>
         </>
       ) : (
-        <Text>Carregando...</Text>
+        <Text>Erro ao carregar os dados.</Text>
       )}
     </View>
   );
