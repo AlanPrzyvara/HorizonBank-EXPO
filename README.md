@@ -27,13 +27,13 @@ Este repositório contém o código-fonte de um aplicativo bancário desenvolvid
 1.  Clone este repositório:
 
     ```bash
-    git clone [https://docs.github.com/articles/referencing-and-citing-content](https://docs.github.com/articles/referencing-and-citing-content)
+    git clone https://github.com/AlanPrzyvara/HorizonBank-EXPO.git
     ```
 
 2.  Navegue até o diretório do projeto:
 
     ```bash
-    cd [nome do seu projeto]
+    cd [nome do repositorio]
     ```
 
 3.  Instale as dependências:
