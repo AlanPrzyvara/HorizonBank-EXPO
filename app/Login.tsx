@@ -27,7 +27,7 @@ export default function Login() {
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("accountId", account.data.id);
 
-      router.replace("/(tabs)/Home"); // Corrigindo a navegação para a pasta correta
+      router.replace("/(tabs)/Home");
     } catch (error) {
       Alert.alert("Erro", "Login falhou. Verifique suas credenciais.");
     }
